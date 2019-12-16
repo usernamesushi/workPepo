@@ -24,14 +24,33 @@
     <!-- 3. 导入bootstrap的js文件 -->
     <script src="js/bootstrap.min.js"></script>
 </head>
+
+<script>
+    //验证姓名字段
+    function nameCheck() {
+        var reg = /^[\u4e00-\u9fa5]{2,14}$/;
+        var name = document.getElementById("name").value;
+        //alert(name);
+       if(name!=reg ||name==''){
+        window.alert("请输入正确的姓名");
+       }else {
+           $(".name").text('√');
+           return true;
+       }
+    }
+
+
+</script>
+
 <body>
 <div class="container">
     <center><h3>添加联系人页面</h3></center>
     <form action="${pageContext.request.contextPath}/addUserServlet" method="post">
         <div class="form-group">
             <label for="name">姓名：</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名">
-        </div>
+            <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名" onblur="nameCheck()">
+            <span class="name" >2-15位中文或英文组成</span>
+            </div>
 
         <div class="form-group">
             <label>性别：</label>

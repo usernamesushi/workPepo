@@ -9,11 +9,11 @@ import java.util.List;
 
 public class UserServiceIplm implements UserService {
 
-    private UserDao dao=new UserDaoIplm();
+    private UserDao dao = new UserDaoIplm();
 
     @Override
     public User login(User user) {
-        return dao.findByUsernameAndPassword(user.getUsername(),user.getPassword());
+        return dao.findByUsernameAndPassword(user.getUsername(), user.getPassword());
     }
 
     @Override
@@ -43,13 +43,12 @@ public class UserServiceIplm implements UserService {
 
     @Override
     public void delSelectUser(String[] uuids) {
-        for (String s:uuids
-             ) {
-            dao.delSelectUser(Integer.parseInt(s));
+        if (uuids.length > 0 && uuids != null) {
+            for (String s : uuids
+                    ) {
+                dao.delSelectUser(Integer.parseInt(s));
+            }
         }
-
-
     }
-
 
 }
