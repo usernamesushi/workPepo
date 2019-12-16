@@ -38,18 +38,43 @@
             }
         }
 
-
-
-
-        window.onload=function () {
+        window.onload = function () {
             /*页面加载完毕 给删除选中加单击事件 将复选框放到一个表单里面,支持提交复选框操作*/
-                document.getElementById("delSelected").ondblclick=function () {
-                    //提交表单
-                    document.getElementById("form").submit();
+            document.getElementById("delSelected").ondblclick = function () {
+                //定义一个标记
+                var flag=false;
+                if(confirm("您确定要删除选中条目吗？")){
+                    var  uids=document.getElementsByName("uuid");
+                    for(var i=0;i<uids.length;i++){
+                       if(uids[i].checked){
+                          flag=true;
+                           break;
+                       }else {
+                        alert("请选择您要删除的条目!");
+
+                       }
+                    }
+                    if(flag){//选中条目
+                        //提交表单
+                        document.getElementById("form").submit();
+                    }
+
+
                 }
+
+            }
+            //复选框的优化
+            document.getElementById("firstCb").onclick = function () {
+                //添加单击事件，与下面的复选框的状态保持一致
+               var  uids=document.getElementsByName("uuid");
+                //20年前的写法
+                for(var i=0;i<uids.length;i++){
+                    //遍历uids,设置状态
+                    uids[i].checked=this.checked;
+                }
+            }
+
         }
-
-
 
 
     </script>
@@ -82,7 +107,7 @@
     <div style="float: right;margin: 5px;">
 
         <a class="btn btn-primary" href="add.jsp">添加联系人</a>
-        <a class="btn btn-primary" href="javascript:void(0)"; id="delSelected" >删除选中</a>
+        <a class="btn btn-primary" href="javascript:void(0)" ; id="delSelected">删除选中</a>
 
     </div>
 
@@ -90,7 +115,7 @@
 
         <table border="1" class="table table-bordered table-hover">
             <tr class="success">
-                <th><input type="checkbox"></th>
+                <th><input type="checkbox" id="firstCb"></th>
                 <th>编号</th>
                 <th>姓名</th>
                 <th>性别</th>
