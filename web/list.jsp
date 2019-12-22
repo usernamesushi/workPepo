@@ -42,19 +42,19 @@
             /*页面加载完毕 给删除选中加单击事件 将复选框放到一个表单里面,支持提交复选框操作*/
             document.getElementById("delSelected").ondblclick = function () {
                 //定义一个标记
-                var flag=false;
-                if(confirm("您确定要删除选中条目吗？")){
-                    var  uids=document.getElementsByName("uuid");
-                    for(var i=0;i<uids.length;i++){
-                       if(uids[i].checked){
-                          flag=true;
-                           break;
-                       }else {
-                        alert("请选择您要删除的条目!");
+                var flag = false;
+                if (confirm("您确定要删除选中条目吗？")) {
+                    var uids = document.getElementsByName("uuid");
+                    for (var i = 0; i < uids.length; i++) {
+                        if (uids[i].checked) {
+                            flag = true;
+                            break;
+                        } else {
+                            alert("请选择您要删除的条目!");
 
-                       }
+                        }
                     }
-                    if(flag){//选中条目
+                    if (flag) {//选中条目
                         //提交表单
                         document.getElementById("form").submit();
                     }
@@ -66,11 +66,11 @@
             //复选框的优化
             document.getElementById("firstCb").onclick = function () {
                 //添加单击事件，与下面的复选框的状态保持一致
-               var  uids=document.getElementsByName("uuid");
+                var uids = document.getElementsByName("uuid");
                 //20年前的写法
-                for(var i=0;i<uids.length;i++){
+                for (var i = 0; i < uids.length; i++) {
                     //遍历uids,设置状态
-                    uids[i].checked=this.checked;
+                    uids[i].checked = this.checked;
                 }
             }
 
@@ -85,7 +85,7 @@
 
     <div style="float: left;">
 
-        <form class="form-inline">
+        <form action="" method="" class="form-inline">
             <div class="form-group">
                 <label for="exampleInputName2">姓名</label>
                 <input type="text" class="form-control" id="exampleInputName2">
@@ -97,7 +97,7 @@
 
             <div class="form-group">
                 <label for="exampleInputEmail2">邮箱</label>
-                <input type="email" class="form-control" id="exampleInputEmail2">
+                <input type="text" class="form-control" id="exampleInputEmail2">
             </div>
             <button type="submit" class="btn btn-default">查询</button>
         </form>
@@ -126,7 +126,7 @@
                 <th>操作</th>
             </tr>
 
-            <c:forEach items="${users}" var="user" varStatus="s">
+            <c:forEach items="${pb.list}" var="user" varStatus="s">
                 <tr>
                     <td><input type="checkbox" name="uuid" value="${user.id}"></td>
                     <td>${s.count}</td>
@@ -148,23 +148,57 @@
     <div>
         <nav aria-label="Page navigation">
             <ul class="pagination">
-                <li>
-                    <a href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
+
+
+                <c:if test="${pb.currentPage==1}">
+                <li class="disabled">
+                    </c:if>
+
+                    <c:if test="${pb.currentPage!=1}">
+                <li >
+                    </c:if>
+
+                    <a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage=${pb.currentPage-1}&rows=5"
+                       aria-label="Previous">
+                        <span aria-hidden="true">上一页</span>
                     </a>
                 </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                    <a href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
+
+
+                <%--激活当前页码--%>
+                <c:forEach begin="1" end="${pb.totalPage}" var="i">
+
+                    <c:if test="${pb.currentPage==i}">
+                        <li class="active">
+                    </c:if>
+                    <c:if test="${pb.currentPage!=i}">
+                        <li >
+                    </c:if>
+
+
+                    <a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage=${i}&rows=5">${i}</a>
+
+
+                    </li>
+                </c:forEach>
+
+
+                <%--下一页样式--%>
+                <c:if test="${pb.currentPage==pb.totalPage}">
+                <li class="disabled">
+                    </c:if>
+
+                <c:if test="${pb.currentPage!=pb.totalPage}">
+                <li >
+                    </c:if>
+                    <%--根据键去值map.name  取出来是一个数组[0]--%>
+                    <a href="${pageContext.request.contextPath}/findUserByPageServlet?currentPage=${pb.currentPage+1}&rows=5"
+                       aria-label="Next">
+                        <span aria-hidden="true">下一页</span>
                     </a>
                 </li>
                 <span style="font-size: 25px;margin-left: 5px;">
-                    共16条记录，共4页
+                    共条记录，共页
                 </span>
 
             </ul>
