@@ -1,0 +1,22 @@
+INSERT INTO demo.user
+	(id,
+	NAME,
+	gender,
+	age,
+	address,
+	qq,
+	email,
+	username,
+	PASSWORD
+	)
+	VALUES
+	('id',
+	'name',
+	'gender',
+	'age',
+	'address',
+	'qq',
+	'email',
+	'username',
+	'password'
+	);
