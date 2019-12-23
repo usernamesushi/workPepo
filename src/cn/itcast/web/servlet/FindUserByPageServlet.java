@@ -28,12 +28,14 @@ public class FindUserByPageServlet extends HttpServlet {
         if(rows==null||"".equals(rows)){
             rows="5";
         }
+        Map<String, String[]> map = request.getParameterMap();
         //2.调用service查询
         UserService service = new UserServiceIplm();
-        PageBean pb = service.findUserByPage(currentPage,rows);
+        PageBean pb = service.findUserByPage(currentPage,rows,map);
         System.out.println(pb);
         //3.将PageBean存入request
         request.setAttribute("pb",pb);
+        request.setAttribute("map",map);
         //4.转发到list.jsp
         request.getRequestDispatcher("/list.jsp").forward(request,response);
     }
